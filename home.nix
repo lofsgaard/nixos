@@ -1,6 +1,19 @@
 { config, pkgs, ... }:
 
-{
+let
+dotfiles = "${config.home.homeDirectory}/config";
+  create_symlink = path: config.lib.file.mkOutOfStoreSymlink path;
+  # Standard .config/directory
+  configs = {
+    i3 = "i3";
+    polybar = "polybar";
+    rofi = "rofi";
+  };
+in
+{ 
+  imports = [
+    ./modules/zsh.nix
+  ];
   home.username = "fjs";
   home.homeDirectory = "/home/fjs";
   programs.git.enable = true;
@@ -14,32 +27,11 @@
     };
   };
 
-  programs.zsh = {
-    enable = true;
-    oh-my-zsh = {
-      enable = true;
-      theme = "robbyrussell";  # or your preferred theme
-      plugins = [
-        "git"
-        "sudo"
-        "docker"
-        "kubectl"
-        "systemd"
-      ];
-    };
-    shellAliases = {
-      ls = "lsd";
-      nrs = "sudo nixos-rebuild switch --flake ~/nixos#bifrost";
-      nrt = "sudo nixos-rebuild test --flake ~/nixos#bifrost";
-      nru = "sudo nixos-rebuild switch --upgrade --flake ~/nixos#bifrost";
-      nixclean = "nix-collect-garbage -d";
-      nixgen = "sudo nixos-rebuild list-generations --flake ~/nixos#bifrost";
-    };
-  };
-
-  home.file.".config/i3".source = ./config/i3;
-  home.file.".config/polybar".source = ./config/polybar;
-  home.file.".config/rofi".source = ./config/rofi;
+  # Iterate over xdg configs and map them accordingly
+  xdg.configFile = builtins.mapAttrs (name: subpath: {
+    source = create_symlink "${dotfiles}/${subpath}";
+    recursive = true;
+  }) configs;
 
   home.packages = with pkgs; [
   ];
