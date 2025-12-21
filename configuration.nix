@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ./etc/nix-ld.nix
     ./modules/hardware.nix
+    ./modules/nvidia.nix
     ./modules/desktop.nix
     ./modules/audio.nix
     ./modules/programs.nix
@@ -16,6 +17,8 @@
     networkmanager.enable = true;
     firewall.enable = true;
   };
+
+  environment.pathsToLink = [ "/share/zsh" ];
 
   time.timeZone = "Europe/Oslo";
   i18n.defaultLocale = "en_US.UTF-8";

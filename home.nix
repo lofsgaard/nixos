@@ -30,6 +30,7 @@ in
   bolt-launcher
   jetbrains-toolbox
   vscode
+  flameshot
   ];
   xdg.configFile = builtins.mapAttrs
     (name: subpath: {
