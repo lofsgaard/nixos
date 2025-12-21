@@ -157,6 +157,8 @@
   spotify
   steam
   faugus-launcher
+  btop
+  bolt-launcher
   ];
 
   fonts.packages = with pkgs; [
