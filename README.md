@@ -19,11 +19,19 @@ A declarative NixOS configuration using flakes, featuring i3 window manager, hom
 ```
 .
 ├── flake.nix                  # Flake configuration with inputs and outputs
-├── configuration.nix          # System-wide NixOS configuration
+├── configuration.nix          # Main system configuration with imports
 ├── hardware-configuration.nix # Hardware-specific settings
 ├── home.nix                   # Home-manager user configuration
-├── modules/
-│   └── zsh.nix               # Zsh configuration module
+├── etc/
+│   └── nix-ld.nix            # Dynamic linker libraries for compatibility
+├── modules/                   # Modular system configuration
+│   ├── hardware.nix          # Boot loader, kernel, Logitech devices
+│   ├── nvidia.nix            # NVIDIA GPU configuration
+│   ├── desktop.nix           # X11, i3, fonts, input devices
+│   ├── audio.nix             # PipeWire audio configuration
+│   ├── programs.nix          # System programs and services
+│   ├── zsh.nix               # Zsh and Oh My Zsh configuration
+│   └── alacritty.nix         # Alacritty terminal configuration
 └── config/                    # Dotfiles (symlinked to ~/.config)
     ├── i3/
     ├── polybar/
@@ -46,7 +54,8 @@ A declarative NixOS configuration using flakes, featuring i3 window manager, hom
 - **Polybar**: Custom status bar
 - **Rofi**: Application launcher and dmenu replacement
 - **Dunst**: Notification daemon
-- **Alacritty**: GPU-accelerated terminal with 0.9 opacity
+- **Alacritty**: GPU-accelerated terminal with 0.9 opacity and Catppuccin Mocha theme
+- **Zsh Plugins**: Oh My Zsh with autosuggestions and syntax highlighting
 
 ### Development Tools
 
@@ -112,9 +121,23 @@ nixgen
 
 ## Configuration Management
 
+### Modular Architecture
+
+The configuration is organized into focused modules for better maintainability:
+
+- **hardware.nix** - Boot configuration, kernel settings, Logitech devices
+- **nvidia.nix** - NVIDIA GPU drivers and settings (can be easily disabled)
+- **desktop.nix** - X11, i3 window manager, fonts, keyboard/mouse configuration
+- **audio.nix** - PipeWire audio stack
+- **programs.nix** - System programs (Firefox, Steam, VS Code, etc.) and GNOME Keyring
+- **zsh.nix** - Zsh shell with Oh My Zsh, plugins, and custom aliases
+- **alacritty.nix** - Terminal emulator with Catppuccin Mocha theme
+
 ### Home-Manager
 
 User-specific configuration is managed through home-manager in `home.nix`. Dotfiles in the `config/` directory are automatically symlinked to `~/.config/` using out-of-store symlinks, allowing for live editing without rebuilds.
+
+User packages are separated from system packages for faster rebuilds and better organization.
 
 ### Adding New Packages
 
@@ -146,13 +169,20 @@ home.packages = with pkgs; [
 }
 ```
 
-2. Import in `home.nix`:
+2. Import in `configuration.nix`:
 
 ```nix
 imports = [
   ./modules/example.nix
 ];
 ```
+
+## Optimization Features
+
+- **Automatic Garbage Collection**: Weekly cleanup of generations older than 30 days
+- **Store Optimization**: Automatic deduplication of identical files in Nix store
+- **Modular Design**: Easy to enable/disable features by commenting out module imports
+- **Separated Concerns**: System vs user packages for faster rebuilds
 
 ## Customization
 
@@ -171,8 +201,18 @@ Changes take effect immediately (no rebuild required).
 Oh My Zsh is configured with:
 
 - Theme: robbyrussell
-- Plugins: git, sudo, docker, kubectl, systemd
+- Built-in plugins: git, sudo, docker, kubectl, systemd, aliases
+- External plugins: zsh-autosuggestions, zsh-syntax-highlighting
 - Custom aliases for NixOS management
+
+### Alacritty Terminal
+
+Configured with:
+
+- Catppuccin Mocha color theme
+- 90% window opacity
+- 14pt font size
+- GPU acceleration
 
 ### Graphics
 
