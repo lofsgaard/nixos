@@ -36,6 +36,7 @@ in
   faugus-launcher
   bolt-launcher
   jetbrains-toolbox
+  vscode
   ];
   xdg.configFile = builtins.mapAttrs
     (name: subpath: {

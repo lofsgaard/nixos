@@ -9,7 +9,6 @@
     coolercontrol.enable = true;
     ssh.startAgent = false;
     nix-ld.enable = true;
-    vscode.enable = true;
     seahorse.enable = true;
     xss-lock.enable = true;
   };

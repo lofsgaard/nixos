@@ -26,6 +26,8 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
+  users.defaultUserShell = pkgs.zsh;
+
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
