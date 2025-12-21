@@ -28,6 +28,14 @@ in
   };
 
   home.packages = with pkgs; [
+  lsd
+  neofetch
+  discord
+  spotify
+  btop
+  faugus-launcher
+  bolt-launcher
+  jetbrains-toolbox
   ];
   xdg.configFile = builtins.mapAttrs
     (name: subpath: {

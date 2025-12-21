@@ -20,6 +20,7 @@
   
   hardware.logitech.wireless.enable = true;
   hardware.logitech.wireless.enableGraphical = true; 
+
   networking.hostName = "bifrost"; # Define your hostname.
 
   # Enable networking
@@ -87,7 +88,6 @@
     isNormalUser = true;
     description = "fjs";
     extraGroups = [ "networkmanager" "wheel" ];
-    shell = pkgs.zsh;
     packages = with pkgs; [
     ];
   };
@@ -102,6 +102,7 @@
     nix-ld.enable = true;
     vscode.enable = true;
     seahorse.enable = true;
+    xss-lock.enable = true;
   };
 
 
@@ -121,18 +122,7 @@
   lm_sensors
   killall
   jq
-  xss-lock
-  libsecret
-  gnome-keyring
   wiremix
-  lsd
-  neofetch
-  discord
-  spotify
-  faugus-launcher
-  btop
-  bolt-launcher
-  jetbrains-toolbox
   ];
 
 
@@ -154,6 +144,18 @@
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
+
+  nix.gc = {
+  automatic = true;
+  dates = "weekly";
+  options = "--delete-older-than 30d";
+  };
+
+  # Optimize store
+  nix.settings.auto-optimise-store = true;
+
+  # Better boot options
+  boot.loader.timeout = 3;
 
 
   networking.firewall.enable = true;
