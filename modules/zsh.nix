@@ -5,7 +5,7 @@
     enable = true;
     oh-my-zsh = {
       enable = true;
-      theme = "robbyrussell";  # or your preferred theme
+      theme = "robbyrussell";
       plugins = [
         "git"
         "sudo"
