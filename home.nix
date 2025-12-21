@@ -13,19 +13,12 @@ in
 {
   imports = [
     ./modules/zsh.nix
+    ./modules/alacritty.nix
   ];
   home.username = "fjs";
   home.homeDirectory = "/home/fjs";
   programs.git.enable = true;
   home.stateVersion = "25.11";
-
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      window.opacity = 0.9;
-      font.size = 14;
-    };
-  };
 
   home.packages = with pkgs; [
   lsd
