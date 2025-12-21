@@ -19,7 +19,7 @@
       nrs = "sudo nixos-rebuild switch --flake ~/nixos#bifrost";
       nrt = "sudo nixos-rebuild test --flake ~/nixos#bifrost";
       nru = "sudo nixos-rebuild switch --upgrade --flake ~/nixos#bifrost";
-      nixclean = "nix-collect-garbage -d";
+      nixclean = "nix-collect-garbage -d --flake ~/nixos#bifrost";
       nixgen = "sudo nixos-rebuild list-generations --flake ~/nixos#bifrost";
     };
   };

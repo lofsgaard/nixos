@@ -73,7 +73,7 @@ bindsym $mod+e exec Thunar
 bindsym $mod+b exec firefox
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+q kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec --no-startup-id rofi -show drun

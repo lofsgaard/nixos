@@ -124,10 +124,15 @@
   # Install firefox.
   programs.firefox.enable = true;
 
+  programs.steam.enable = true;
+
   # Install coolercontrold
   programs.coolercontrol.enable = true;
 
-  programs.ssh.startAgent = true;
+  # Enable GNOME Keyring for password management
+  security.pam.services.login.enableGnomeKeyring = true;
+  services.gnome.gnome-keyring.enable = true;
+  programs.ssh.startAgent = false;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -144,9 +149,14 @@
   vscode
   libsecret
   gnome-keyring
+  seahorse
   wiremix
   lsd
   neofetch
+  discord
+  spotify
+  steam
+  faugus-launcher
   ];
 
   fonts.packages = with pkgs; [
