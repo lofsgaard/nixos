@@ -10,6 +10,7 @@
     ../../modules/audio.nix
     ../../modules/programs.nix
     ../../modules/zsh.nix
+    ../../modules/maintenance.nix
   ];
 
   networking = {
@@ -49,17 +50,11 @@
     pulseaudio
   ];
 
-  nix = {
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 10d";
-    };
-    settings = {
-      auto-optimise-store = true;
-      experimental-features = [
-        "nix-command"
-        "flakes"
+  nix.settings = {
+    auto-optimise-store = true;
+    experimental-features = [
+      "nix-command"
+      "flakes"
       ];
     };
   };
