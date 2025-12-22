@@ -14,9 +14,9 @@
     trusted-users = [ "fjs" ];
   };
 
-  boot.loader.grub = {
+  boot.loader.grub = {111
     enable = true;
-    device = "/dev/sda"; # Legacy BIOS boot
+    # disko automatically adds devices with EF02 partitions
   };
 
   environment.systemPackages = [

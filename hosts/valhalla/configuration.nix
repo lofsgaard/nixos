@@ -16,7 +16,7 @@
 
   boot.loader.grub = {
     enable = true;
-    device = "/dev/sda"; # Hetzner uses legacy BIOS boot
+    # disko automatically adds devices with EF02 partitions
   };
 
   environment.systemPackages = [
