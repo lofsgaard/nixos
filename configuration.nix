@@ -19,6 +19,7 @@
   };
 
   environment.pathsToLink = [ "/share/zsh" ];
+  environment.localBinInPath = true;
 
   time.timeZone = "Europe/Oslo";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -26,7 +27,11 @@
   users.users.fjs = {
     isNormalUser = true;
     description = "fjs";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "libvirtd"
+    ];
   };
 
   users.defaultUserShell = pkgs.zsh;
@@ -41,17 +46,21 @@
     killall
     jq
     wiremix
+    pulseaudio
   ];
 
   nix = {
     gc = {
       automatic = true;
       dates = "weekly";
-      options = "--delete-older-than 30d";
+      options = "--delete-older-than 10d";
     };
     settings = {
       auto-optimise-store = true;
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
     };
   };
 

@@ -3,7 +3,7 @@
 {
   services.xserver = {
     enable = true;
-    
+
     xkb = {
       layout = "no";
       variant = "";
@@ -25,7 +25,7 @@
   };
 
   services.displayManager.defaultSession = "none+i3";
-  
+
   services.libinput = {
     enable = true;
     mouse = {

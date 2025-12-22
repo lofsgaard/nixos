@@ -21,20 +21,22 @@ in
   home.stateVersion = "25.11";
 
   home.packages = with pkgs; [
-  lsd
-  neofetch
-  discord
-  spotify
-  btop
-  faugus-launcher
-  bolt-launcher
-  jetbrains-toolbox
-  vscode
-  flameshot
+    lsd
+    neofetch
+    discord
+    spotify
+    btop
+    faugus-launcher
+    bolt-launcher
+    jetbrains-toolbox
+    vscode
+    flameshot
+    uv
+    nixd
+    nixfmt
   ];
-  xdg.configFile = builtins.mapAttrs
-    (name: subpath: {
-      source = create_symlink "${dotfiles}/${subpath}";
-      recursive = true;
-    })configs;
+  xdg.configFile = builtins.mapAttrs (name: subpath: {
+    source = create_symlink "${dotfiles}/${subpath}";
+    recursive = true;
+  }) configs;
 }

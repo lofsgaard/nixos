@@ -7,7 +7,7 @@
   # Graphics and NVIDIA configuration
   hardware = {
     graphics.enable = true;
-    
+
     nvidia = {
       modesetting.enable = true;
       powerManagement.enable = false;

@@ -1,4 +1,4 @@
-{ config, pkgs, ...}:
+{ config, pkgs, ... }:
 
 {
   programs.zsh = {
@@ -16,7 +16,7 @@
         "kubectl"
         "systemd"
         "aliases"
-        ];
+      ];
     };
     shellAliases = {
       ls = "lsd";
