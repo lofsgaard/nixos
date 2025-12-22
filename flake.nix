@@ -15,10 +15,6 @@
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -28,12 +24,13 @@
       home-manager,
       llm-agents,
       deploy-rs,
-      disko,
       ...
     }:
     {
       nixosConfigurations.bifrost = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit llm-agents; };
+        specialArgs = {
+          inherit self llm-agents;
+        };
         modules = [
           ./hosts/bifrost/configuration.nix
           home-manager.nixosModules.home-manager
@@ -44,22 +41,18 @@
               users.fjs = import ./hosts/bifrost/home.nix;
               backupFileExtension = "backup";
               extraSpecialArgs = {
-                inherit llm-agents;
+                inherit llm-agents deploy-rs;
               };
             };
           }
         ];
       };
       nixosConfigurations.asgard = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit self;
+        };
         modules = [
-          disko.nixosModules.disko
           ./hosts/asgard/configuration.nix
-        ];
-      };
-      nixosConfigurations.valhalla = nixpkgs.lib.nixosSystem {
-        modules = [
-          disko.nixosModules.disko
-          ./hosts/valhalla/configuration.nix
         ];
       };
 
@@ -73,17 +66,8 @@
               path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.asgard;
             };
           };
-          deploy.nodes.valhalla = {
-            hostname = "valhalla.isafter.me"; # or use FQDN
-            profiles.system = {
-              sshUser = "fjs";
-              user = "root";
-              path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.valhalla;
-            };
-          };
         };
       };
-
       checks = {
         x86_64-linux = deploy-rs.lib.x86_64-linux.deployChecks self.deploy;
       };

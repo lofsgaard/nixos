@@ -2,6 +2,7 @@
   config,
   pkgs,
   llm-agents,
+  deploy-rs,
   ...
 }:
 
@@ -26,8 +27,7 @@ in
   home.stateVersion = "25.11";
 
   home.packages =
-    with pkgs;
-    [
+    (with pkgs; [
       lsd
       neofetch
       discord
@@ -43,11 +43,10 @@ in
       nixfmt
       mcp-nixos
       vim
-    ]
-    ++ (with llm-agents.packages.${pkgs.system}; [
-      claude-code
     ])
     ++ [
+      llm-agents.packages.${pkgs.system}.claude-code
+      deploy-rs.packages.${pkgs.system}.deploy-rs
     ];
   xdg.configFile = builtins.mapAttrs (name: subpath: {
     source = create_symlink "${dotfiles}/${subpath}";
