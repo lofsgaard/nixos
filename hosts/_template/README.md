@@ -73,6 +73,7 @@ This template is used to bootstrap new NixOS hosts with nixos-anywhere.
 - **timezone**: Set in `configuration.nix` (time.timeZone)
 - **SSH key**: Update in users.users.fjs.openssh.authorizedKeys.keys
 - **disk device**: Verify/update in `disko.nix` (default: /dev/sda)
+- **boot mode**: Default is legacy BIOS boot. For UEFI, modify `configuration.nix` and `disko.nix`
 - **packages**: Add to environment.systemPackages
 
 ## Notes
