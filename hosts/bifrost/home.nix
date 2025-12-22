@@ -42,6 +42,7 @@ in
       nixd
       nixfmt
       mcp-nixos
+      vim
     ]
     ++ (with llm-agents.packages.${pkgs.system}; [
       claude-code

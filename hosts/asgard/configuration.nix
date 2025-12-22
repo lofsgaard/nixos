@@ -7,12 +7,15 @@
 
   nix.settings = {
     experimental-features = "nix-command flakes";
+    trusted-users = [ "fjs" ];
   };
 
   environment.systemPackages = [
     pkgs.vim
     pkgs.git
   ];
+
+  networking.hostName = "asgard";
 
   time.timeZone = "Europe/Falkenstein";
   i18n.defaultLocale = "en_US.UTF-8";
