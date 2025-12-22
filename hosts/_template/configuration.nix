@@ -14,7 +14,7 @@
     trusted-users = [ "fjs" ];
   };
 
-  boot.loader.grub = {111
+  boot.loader.grub = {
     enable = true;
     # disko automatically adds devices with EF02 partitions
   };
