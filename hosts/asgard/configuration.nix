@@ -11,8 +11,8 @@
   };
 
   environment.systemPackages = [
-    pkgs.vim
     pkgs.git
+    pkgs.vim
   ];
 
   networking.hostName = "asgard";

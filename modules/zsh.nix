@@ -26,10 +26,10 @@
       nixclean = "sudo nix-collect-garbage -d";
       nixgen = "sudo nixos-rebuild list-generations --flake ~/nixos#bifrost";
 
-      # Remote build aliases for asgard
-      nrs-asgard = "NIX_SSHOPTS='-i /home/fjs/.ssh/id_ed25519' sudo -E nixos-rebuild switch --flake ~/nixos#asgard --target-host fjs@asgard.isafter.me";
-      nrt-asgard = "NIX_SSHOPTS='-i /home/fjs/.ssh/id_ed25519' sudo -E nixos-rebuild test --flake ~/nixos#asgard --target-host fjs@asgard.isafter.me";
-      nru-asgard = "NIX_SSHOPTS='-i /home/fjs/.ssh/id_ed25519' sudo -E nixos-rebuild switch --upgrade --flake ~/nixos#asgard --target-host fjs@asgard.isafter.me";
+      # Deploy-rs aliases
+      deploy-asgard = "deploy .#asgard";
+      deploy-all = "deploy .#";
+      deploy-check = "nix flake check";
     };
   };
 }

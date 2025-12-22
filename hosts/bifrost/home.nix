@@ -2,6 +2,7 @@
   config,
   pkgs,
   llm-agents,
+  deploy-rs,
   ...
 }:
 
@@ -46,7 +47,10 @@ in
     ]
     ++ (with llm-agents.packages.${pkgs.system}; [
       claude-code
-    ]);
+    ])
+    ++ [
+      deploy-rs.packages.${pkgs.system}.deploy-rs
+    ];
   xdg.configFile = builtins.mapAttrs (name: subpath: {
     source = create_symlink "${dotfiles}/${subpath}";
     recursive = true;

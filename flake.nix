@@ -11,6 +11,10 @@
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -19,6 +23,7 @@
       nixpkgs,
       home-manager,
       llm-agents,
+      deploy-rs,
       ...
     }:
     {
@@ -34,7 +39,9 @@
               useUserPackages = true;
               users.fjs = import ./hosts/bifrost/home.nix;
               backupFileExtension = "backup";
-              extraSpecialArgs = { inherit llm-agents; };
+              extraSpecialArgs = {
+                inherit llm-agents deploy-rs;
+              };
             };
           }
         ];
@@ -45,5 +52,29 @@
           ./hosts/asgard/configuration.nix
         ];
       };
+
+      deploy.nodes = {
+        bifrost = {
+          hostname = "localhost";
+          profiles.system = {
+            sshUser = "fjs";
+            user = "root";
+            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.bifrost;
+          };
+        };
+
+        asgard = {
+          hostname = "asgard.isafter.me";
+          profiles.system = {
+            sshUser = "fjs";
+            user = "root";
+            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.asgard;
+          };
+        };
+      };
+
+      checks = builtins.mapAttrs (
+        system: deployLib: deployLib.deployChecks self.deploy
+      ) deploy-rs.lib;
     };
 }
