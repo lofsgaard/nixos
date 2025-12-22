@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  llm-agents,
+  ...
+}:
 
 let
   dotfiles = "${config.home.homeDirectory}/nixos/config";
@@ -12,29 +17,35 @@ let
 in
 {
   imports = [
-    ./modules/zsh.nix
-    ./modules/alacritty.nix
+    ../../modules/zsh.nix
+    ../../modules/alacritty.nix
   ];
   home.username = "fjs";
   home.homeDirectory = "/home/fjs";
   programs.git.enable = true;
   home.stateVersion = "25.11";
 
-  home.packages = with pkgs; [
-    lsd
-    neofetch
-    discord
-    spotify
-    btop
-    faugus-launcher
-    bolt-launcher
-    jetbrains-toolbox
-    vscode
-    flameshot
-    uv
-    nixd
-    nixfmt
-  ];
+  home.packages =
+    with pkgs;
+    [
+      lsd
+      neofetch
+      discord
+      spotify
+      btop
+      faugus-launcher
+      bolt-launcher
+      jetbrains-toolbox
+      vscode
+      flameshot
+      uv
+      nixd
+      nixfmt
+      mcp-nixos
+    ]
+    ++ (with llm-agents.packages.${pkgs.system}; [
+      claude-code
+    ]);
   xdg.configFile = builtins.mapAttrs (name: subpath: {
     source = create_symlink "${dotfiles}/${subpath}";
     recursive = true;

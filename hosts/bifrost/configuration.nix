@@ -3,19 +3,19 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./etc/nix-ld.nix
-    ./modules/hardware.nix
-    ./modules/nvidia.nix
-    ./modules/desktop.nix
-    ./modules/audio.nix
-    ./modules/programs.nix
-    ./modules/zsh.nix
+    ../../etc/nix-ld.nix
+    ../../modules/hardware.nix
+    ../../modules/nvidia.nix
+    ../../modules/desktop.nix
+    ../../modules/audio.nix
+    ../../modules/programs.nix
+    ../../modules/zsh.nix
   ];
 
   networking = {
     hostName = "bifrost";
     networkmanager.enable = true;
-    firewall.enable = true;
+    firewall.enable = false;
   };
 
   environment.pathsToLink = [ "/share/zsh" ];
