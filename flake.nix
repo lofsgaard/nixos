@@ -39,7 +39,7 @@
               users.fjs = import ./hosts/bifrost/home.nix;
               backupFileExtension = "backup";
               extraSpecialArgs = {
-                inherit llm-agents deploy-rs;
+                inherit llm-agents;
               };
             };
           }
@@ -64,6 +64,8 @@
         };
       };
 
-      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+      checks = {
+        x86_64-linux = deploy-rs.lib.x86_64-linux.deployChecks self.deploy;
+      };
     };
 }
