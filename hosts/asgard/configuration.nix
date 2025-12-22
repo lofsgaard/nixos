@@ -4,6 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/maintenance.nix
+    ./services/traefik.nix
   ];
 
   nix.settings = {
