@@ -14,7 +14,7 @@
     pkgs.git
   ];
 
-  time.timeZone = "Europe/London";
+  time.timeZone = "Europe/Falkenstein";
   i18n.defaultLocale = "en_US.UTF-8";
   console.keyMap = "no";
 
