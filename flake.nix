@@ -15,6 +15,10 @@
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -24,6 +28,7 @@
       home-manager,
       llm-agents,
       deploy-rs,
+      disko,
       ...
     }:
     {
@@ -47,6 +52,7 @@
       };
       nixosConfigurations.asgard = nixpkgs.lib.nixosSystem {
         modules = [
+          disko.nixosModules.disko
           ./hosts/asgard/configuration.nix
         ];
       };

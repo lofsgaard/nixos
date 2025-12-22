@@ -30,6 +30,9 @@
       deploy-asgard = "deploy ~/nixos#asgard";
       deploy-all = "deploy ~/nixos#";
       deploy-check = "nix flake check";
+
+      # nixos-anywhere helper
+      bootstrap-host = "~/nixos/scripts/bootstrap-host.sh";
     };
   };
 }
