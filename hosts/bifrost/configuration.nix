@@ -36,6 +36,7 @@
 
   users.defaultUserShell = pkgs.zsh;
 
+  nixpkgs.hostPlatform = "x86_64-linux";
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [

@@ -28,7 +28,6 @@
     }:
     {
       nixosConfigurations.bifrost = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
         specialArgs = { inherit llm-agents; };
         modules = [
           ./hosts/bifrost/configuration.nix
@@ -47,34 +46,24 @@
         ];
       };
       nixosConfigurations.asgard = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
         modules = [
           ./hosts/asgard/configuration.nix
         ];
       };
 
-      deploy.nodes = {
-        bifrost = {
-          hostname = "localhost";
-          profiles.system = {
-            sshUser = "fjs";
-            user = "root";
-            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.bifrost;
-          };
-        };
-
-        asgard = {
-          hostname = "asgard.isafter.me";
-          profiles.system = {
-            sshUser = "fjs";
-            user = "root";
-            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.asgard;
+      deploy = {
+        nodes = {
+          asgard = {
+            hostname = "asgard.isafter.me";
+            profiles.system = {
+              sshUser = "fjs";
+              user = "root";
+              path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.asgard;
+            };
           };
         };
       };
 
-      checks = builtins.mapAttrs (
-        system: deployLib: deployLib.deployChecks self.deploy
-      ) deploy-rs.lib;
+      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
     };
 }

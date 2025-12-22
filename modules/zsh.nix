@@ -27,8 +27,8 @@
       nixgen = "sudo nixos-rebuild list-generations --flake ~/nixos#bifrost";
 
       # Deploy-rs aliases
-      deploy-asgard = "deploy .#asgard";
-      deploy-all = "deploy .#";
+      deploy-asgard = "deploy ~/nixos#asgard";
+      deploy-all = "deploy ~/nixos#";
       deploy-check = "nix flake check";
     };
   };
