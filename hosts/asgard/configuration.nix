@@ -5,8 +5,6 @@
     ./hardware-configuration.nix
   ];
 
-  nixpkgs.hostPlatform = "x86_64-linux";
-
   nix.settings = {
     experimental-features = "nix-command flakes";
     trusted-users = [ "fjs" ];
