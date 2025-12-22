@@ -56,6 +56,12 @@
           ./hosts/asgard/configuration.nix
         ];
       };
+      nixosConfigurations.valhalla = nixpkgs.lib.nixosSystem {
+        modules = [
+          disko.nixosModules.disko
+          ./hosts/valhalla/configuration.nix
+        ];
+      };
 
       deploy = {
         nodes = {
@@ -65,6 +71,14 @@
               sshUser = "fjs";
               user = "root";
               path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.asgard;
+            };
+          };
+          deploy.nodes.valhalla = {
+            hostname = "valhalla.isafter.me"; # or use FQDN
+            profiles.system = {
+              sshUser = "fjs";
+              user = "root";
+              path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.valhalla;
             };
           };
         };
