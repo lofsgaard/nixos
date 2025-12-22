@@ -44,7 +44,25 @@ This template is used to bootstrap new NixOS hosts with nixos-anywhere.
    nix run github:nix-community/nixos-anywhere -- --flake .#<hostname> root@<ip-address>
    ```
 
-5. Manage with deploy-rs:
+5. Fetch the generated hardware configuration:
+   ```bash
+   fetch-hardware-config <hostname>
+   # Enter the hostname/IP when prompted
+   ```
+
+   This will:
+   - SSH into the remote host
+   - Run `nixos-generate-config --show-hardware-config`
+   - Save the output to `hosts/<hostname>/hardware-configuration.nix`
+   - Replace the placeholder with real hardware detection
+
+6. Review and commit:
+   ```bash
+   git add hosts/<hostname>/hardware-configuration.nix
+   git commit -m 'feat: add hardware config for <hostname>'
+   ```
+
+7. Manage with deploy-rs:
    ```bash
    deploy .#<hostname>
    ```

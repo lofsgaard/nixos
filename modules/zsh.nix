@@ -31,8 +31,9 @@
       deploy-all = "deploy ~/nixos#";
       deploy-check = "nix flake check";
 
-      # nixos-anywhere helper
+      # nixos-anywhere helpers
       bootstrap-host = "~/nixos/scripts/bootstrap-host.sh";
+      fetch-hardware-config = "~/nixos/scripts/fetch-hardware-config.sh";
     };
   };
 }
