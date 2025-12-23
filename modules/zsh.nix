@@ -12,7 +12,6 @@
       plugins = [
         "git"
         "sudo"
-        "docker"
         "kubectl"
         "systemd"
         "aliases"

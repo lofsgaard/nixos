@@ -33,6 +33,7 @@
     }:
     {
       nixosConfigurations.bifrost = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         specialArgs = {
           inherit self llm-agents;
         };
@@ -53,6 +54,7 @@
         ];
       };
       nixosConfigurations.asgard = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         specialArgs = {
           inherit self;
         };
@@ -61,11 +63,28 @@
           agenix.nixosModules.default
         ];
       };
+      nixosConfigurations.helheim = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit self;
+        };
+        modules = [
+          ./hosts/helheim/configuration.nix
+        ];
+      };
 
       deploy = {
         nodes = {
           asgard = {
             hostname = "asgard.isafter.me";
+            profiles.system = {
+              sshUser = "fjs";
+              user = "root";
+              path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.asgard;
+            };
+          };
+          helheim = {
+            hostname = "10.1.10.10";
             profiles.system = {
               sshUser = "fjs";
               user = "root";

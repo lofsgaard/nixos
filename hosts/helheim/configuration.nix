@@ -4,9 +4,6 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/maintenance.nix
-    ./services/traefik.nix
-    ./secrets.nix
-    ../../modules/containers.nix
   ];
 
   nix.settings = {
@@ -19,14 +16,9 @@
     pkgs.vim
   ];
 
-  services.fail2ban = {
-    enable = true;
-    bantime = "1h";
-  };
+  networking.hostName = "helheim";
 
-  networking.hostName = "asgard";
-
-  time.timeZone = "Europe/Falkenstein";
+  time.timeZone = "Europe/Oslo";
   i18n.defaultLocale = "en_US.UTF-8";
   console.keyMap = "no";
 
@@ -36,7 +28,6 @@
       isNormalUser = true;
       extraGroups = [
         "wheel"
-        "podman"
       ];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFSO10/lIejPCuTZq03UlqU/DUzwxj1/NX7hBm74OhRu andreas@lofsgaard.com"
@@ -57,9 +48,7 @@
 
   networking.firewall.allowedTCPPorts = [
     22
-    443
-    80
   ];
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 }
