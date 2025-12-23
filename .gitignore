@@ -1,0 +1,6 @@
+*.age.plaintext
+secrets/*.txt
+secrets/*.env
+.secrets/
+*.key
+*.pem

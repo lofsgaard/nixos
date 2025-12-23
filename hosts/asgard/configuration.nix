@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ../../modules/maintenance.nix
     ./services/traefik.nix
+    ./secrets.nix
   ];
 
   nix.settings = {
@@ -16,6 +17,8 @@
     pkgs.git
     pkgs.vim
   ];
+
+  services.fail2ban.enable = true;
 
   networking.hostName = "asgard";
 
@@ -45,7 +48,12 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 22 ];
+  networking.firewall.allowedTCPPorts = [
+    22
+    8080
+    443
+    80
+  ];
 
   system.stateVersion = "25.05";
 }

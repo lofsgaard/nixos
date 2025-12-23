@@ -15,6 +15,10 @@
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -24,6 +28,7 @@
       home-manager,
       llm-agents,
       deploy-rs,
+      agenix,
       ...
     }:
     {
@@ -41,7 +46,7 @@
               users.fjs = import ./hosts/bifrost/home.nix;
               backupFileExtension = "backup";
               extraSpecialArgs = {
-                inherit llm-agents deploy-rs;
+                inherit llm-agents deploy-rs agenix;
               };
             };
           }
@@ -53,6 +58,7 @@
         };
         modules = [
           ./hosts/asgard/configuration.nix
+          agenix.nixosModules.default
         ];
       };
 

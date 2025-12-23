@@ -1,10 +1,22 @@
-{ pkgs, config, ... }:
-
+{
+  config,
+  ...
+}:
 {
   services.traefik = {
     enable = true;
+    environmentFiles = [ config.age.secrets.secret_cloudflare.path ];
+    dataDir = "/var/lib/traefik";
 
     staticConfigOptions = {
+      log = {
+        level = "WARN";
+      };
+
+      api = {
+        dashboard = true; # Add this to enable dashboard
+      };
+
       entryPoints = {
         web = {
           address = ":80";
@@ -15,36 +27,63 @@
         };
         websecure = {
           address = ":443";
-          http.tls = {
-            certResolver = "cloudflare";
-            domains = [
-              {
-                main = "${hl.domain}";
-                sans = [ "*.${hl.domain}" ];
-              }
-            ];
+        };
+      };
+
+      certificatesResolvers = {
+        cloudflare = {
+          acme = {
+            email = "andreas@lofsgaard.com";
+            storage = "/var/lib/traefik/acme.json";
+            dnsChallenge = {
+              provider = "cloudflare";
+              resolvers = [
+                "1.1.1.1:53"
+                "8.8.8.8:53"
+              ];
+              propagation = {
+                delayBeforeChecks = "120s";
+              };
+            };
           };
         };
       };
-      certificatesResolvers.letsencrypt.acme = {
-        email = "dev@lofsgaard.com";
-        storage = "${config.services.traefik.dataDir}/acme.json";
-        httpChallenge.entryPoint = "web";
-      };
-
-      api.dashboard = true;
-      # Access the Traefik dashboard on <Traefik IP>:8080 of your server
-      # api.insecure = true;
     };
 
     dynamicConfigOptions = {
-      http.routers = { };
-      http.services = { };
+      http = {
+        middlewares = {
+          auth = {
+            basicAuth = {
+              users = [ "admin:$apr1$bJt81xIX$alH.5MEaMA4mHgFMcz7IU1" ];
+            };
+          };
+          dashboard-ip-allowlist = {
+            ipAllowList = {
+              sourceRange = [
+                "127.0.0.1/32"
+                "81.191.193.166/32" # Changed from /24 to /32 for single IP
+              ];
+            };
+          };
+        };
+
+        routers = {
+          api = {
+            # Fixed: Missing backtick, wrong PathPrefix syntax
+            rule = "Host(`asgard.isafter.me`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))";
+            service = "api@internal";
+            entryPoints = [ "websecure" ]; # Fixed: capital P
+            middlewares = [
+              "auth"
+              "dashboard-ip-allowlist" # Fixed: match the middleware name above
+            ];
+            tls = {
+              certResolver = "cloudflare";
+            };
+          };
+        };
+      };
     };
-  };
-  services.traefik.staticConfigFile = ./static_config.toml;
-  systemd.services.traefik.environment = {
-    CF_API_EMAIL_FILE = "/path/to/file";
-    CF_DNS_API_TOKEN_FILE = "/path/to/file";
   };
 }

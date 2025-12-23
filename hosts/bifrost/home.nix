@@ -41,8 +41,10 @@ in
       uv
       nixd
       nixfmt
+      nixfmt-tree
       mcp-nixos
       vim
+      dig
     ])
     ++ [
       llm-agents.packages.${pkgs.system}.claude-code
