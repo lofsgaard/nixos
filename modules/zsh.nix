@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ ... }:
 
 {
   programs.zsh = {
@@ -20,6 +20,7 @@
     };
     shellAliases = {
       ls = "lsd";
+      zed = "zeditor";
       nrs = "sudo nixos-rebuild switch --flake ~/nixos#bifrost";
       nrt = "sudo nixos-rebuild test --flake ~/nixos#bifrost";
       nru = "sudo nixos-rebuild switch --upgrade --flake ~/nixos#bifrost";
