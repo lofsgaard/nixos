@@ -45,6 +45,7 @@ in
       mcp-nixos
       vim
       dig
+      zed-editor
     ])
     ++ [
       llm-agents.packages.${pkgs.system}.claude-code

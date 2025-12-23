@@ -1,237 +1,326 @@
-# NixOS Configuration - Bifrost
+# NixOS Configuration
 
-A declarative NixOS configuration using flakes, featuring i3 window manager, home-manager, and custom dotfiles management.
+A declarative, flake-based NixOS configuration managing multiple systems with shared modules and host-specific configurations.
 
-## System Overview
+## Hosts
 
-- **Hostname**: bifrost
+### Bifrost (Desktop Workstation)
+- **Type**: Desktop workstation
 - **Window Manager**: i3
-- **Terminal**: Alacritty
-- **Shell**: Zsh with Oh My Zsh
-- **Application Launcher**: Rofi
-- **Status Bar**: Polybar
-- **Notifications**: Dunst
-- **GPU**: NVIDIA (stable drivers)
-- **Kernel**: Latest Linux kernel with nct6687d module for sensor monitoring
+- **User Management**: home-manager
+- **GPU**: NVIDIA
+- **Primary Use**: Development and gaming
 
-## Structure
+### Asgard (Remote Server)
+- **Type**: Remote server
+- **Location**: Europe/Falkenstein
+- **Primary Use**: Web services with Traefik reverse proxy
+- **Deployment**: deploy-rs
+- **Secrets**: agenix
+
+## Quick Start
+
+### Bifrost (Desktop)
+
+```bash
+# Rebuild and switch
+sudo nixos-rebuild switch --flake ~/nixos#bifrost
+# Or use alias
+nrs
+
+# Test without persisting
+nrt
+
+# Rebuild with flake updates
+nru
+```
+
+### Asgard (Server)
+
+```bash
+# Deploy from local machine
+deploy .#asgard
+
+# Or rebuild on server
+sudo nixos-rebuild switch --flake /etc/nixos#asgard
+```
+
+## Project Structure
 
 ```
 .
-├── flake.nix                  # Flake configuration with inputs and outputs
-├── configuration.nix          # Main system configuration with imports
-├── hardware-configuration.nix # Hardware-specific settings
-├── home.nix                   # Home-manager user configuration
+├── flake.nix                    # Flake inputs and host configurations
+├── flake.lock                   # Locked dependency versions
+├── CLAUDE.md                    # AI assistant guidance
+│
+├── hosts/                       # Host-specific configurations
+│   ├── bifrost/
+│   │   ├── configuration.nix    # System configuration
+│   │   ├── home.nix            # Home-manager config
+│   │   └── hardware-configuration.nix
+│   └── asgard/
+│       ├── configuration.nix    # System configuration
+│       ├── hardware-configuration.nix
+│       ├── secrets.nix         # agenix secrets
+│       └── services/
+│           └── traefik.nix     # Traefik reverse proxy
+│
+├── modules/                     # Shared system modules
+│   ├── hardware.nix            # Boot, kernel, peripherals
+│   ├── nvidia.nix              # NVIDIA GPU drivers
+│   ├── desktop.nix             # X11, i3, fonts, input
+│   ├── audio.nix               # PipeWire audio
+│   ├── programs.nix            # System applications
+│   ├── zsh.nix                 # Zsh shell configuration
+│   ├── alacritty.nix          # Terminal emulator
+│   └── maintenance.nix         # Auto-upgrade & garbage collection
+│
+├── config/                      # Dotfiles (symlinked to ~/.config)
+│   ├── i3/
+│   ├── polybar/
+│   └── rofi/
+│
 ├── etc/
-│   └── nix-ld.nix            # Dynamic linker libraries for compatibility
-├── modules/                   # Modular system configuration
-│   ├── hardware.nix          # Boot loader, kernel, Logitech devices
-│   ├── nvidia.nix            # NVIDIA GPU configuration
-│   ├── desktop.nix           # X11, i3, fonts, input devices
-│   ├── audio.nix             # PipeWire audio configuration
-│   ├── programs.nix          # System programs and services
-│   ├── zsh.nix               # Zsh and Oh My Zsh configuration
-│   └── alacritty.nix         # Alacritty terminal configuration
-└── config/                    # Dotfiles (symlinked to ~/.config)
-    ├── i3/
-    ├── polybar/
-    └── rofi/
+│   └── nix-ld.nix              # Dynamic linker compatibility
+│
+└── secrets/                     # agenix encrypted secrets
+    └── secrets.nix
 ```
 
 ## Features
 
-### System Configuration
+### Bifrost Features
 
-- **Boot**: systemd-boot with EFI support
-- **Kernel**: Latest Linux kernel with custom sensor module (nct6687d)
-- **Hardware**: Logitech wireless support, NVIDIA GPU with modesetting
-- **Input**: Flat mouse acceleration profile, Norwegian keyboard layout
-- **Audio**: PipeWire with ALSA and PulseAudio compatibility
-
-### Desktop Environment
-
+#### Desktop Environment
 - **i3 Window Manager**: Tiling window manager with autotiling
 - **Polybar**: Custom status bar
-- **Rofi**: Application launcher and dmenu replacement
+- **Rofi**: Application launcher
+- **Alacritty**: GPU-accelerated terminal (Catppuccin Mocha theme, 90% opacity)
 - **Dunst**: Notification daemon
-- **Alacritty**: GPU-accelerated terminal with 0.9 opacity and Catppuccin Mocha theme
-- **Zsh Plugins**: Oh My Zsh with autosuggestions and syntax highlighting
 
-### Development Tools
+#### System
+- **Boot**: systemd-boot with EFI
+- **Kernel**: Linux 6.18 with nct6687d sensor module
+- **Audio**: PipeWire with ALSA/PulseAudio compatibility
+- **GPU**: NVIDIA drivers with modesetting
+- **Input**: Norwegian keyboard layout, flat mouse acceleration
 
-- Firefox browser
+#### Development
 - VS Code with GNOME Keyring integration
-- Git version control
-- Various CLI utilities (lsd, neofetch, btop, wget, jq)
+- JetBrains Toolbox
+- Git, vim, nixd, nixfmt
+- Python (uv package manager)
+- Claude Code CLI
 
-### Applications
-
-- Steam (gaming platform)
-- Discord
-- Spotify
-- Faugus Launcher
-- Bolt Launcher
+#### Applications
+- Firefox
+- Discord, Spotify
+- Steam, Faugus Launcher, Bolt Launcher
 - Thunar file manager
-- CoolerControl (hardware monitoring)
+- CoolerControl hardware monitoring
 
-## Quick Start
+### Asgard Features
 
-### Initial Installation
+#### Security
+- fail2ban intrusion prevention
+- SSH hardening (no root login, key-only authentication)
+- Sudo without password for wheel group
+- Firewall (ports 22, 80, 443)
 
-1. Clone this repository:
+#### Services
+- **Traefik**: Reverse proxy with automatic HTTPS
+  - Cloudflare DNS challenge for Let's Encrypt
+  - Dashboard with IP allowlist and basic auth
+  - Automatic HTTP to HTTPS redirect
 
-```bash
-git clone https://github.com/lofsgaard/nixos.git ~/nixos
-cd ~/nixos
-```
-
-2. Update hardware configuration:
-
-```bash
-sudo nixos-generate-config --show-hardware-config > hardware-configuration.nix
-```
-
-3. Build and switch to the new configuration:
-
-```bash
-sudo nixos-rebuild switch --flake ~/nixos#bifrost
-```
-
-### Regular Usage
-
-Build and activate (with aliases from zsh module):
-
-```bash
-nrs  # Rebuild and switch
-nrt  # Rebuild and test (no bootloader entry)
-nru  # Rebuild with upgrade
-```
-
-Clean up old generations:
-
-```bash
-nixclean
-```
-
-List generations:
-
-```bash
-nixgen
-```
+#### Maintenance
+- Automatic system upgrades (daily at 02:00 with randomization)
+- Weekly garbage collection (10-day retention)
 
 ## Configuration Management
 
-### Modular Architecture
+### Flake Inputs
 
-The configuration is organized into focused modules for better maintainability:
+```nix
+nixpkgs          # NixOS 25.11
+home-manager     # release-25.11
+llm-agents       # Claude Code CLI
+deploy-rs        # Deployment tool
+agenix           # Secrets management
+```
 
-- **hardware.nix** - Boot configuration, kernel settings, Logitech devices
-- **nvidia.nix** - NVIDIA GPU drivers and settings (can be easily disabled)
-- **desktop.nix** - X11, i3 window manager, fonts, keyboard/mouse configuration
-- **audio.nix** - PipeWire audio stack
-- **programs.nix** - System programs (Firefox, Steam, VS Code, etc.) and GNOME Keyring
-- **zsh.nix** - Zsh shell with Oh My Zsh, plugins, and custom aliases
-- **alacritty.nix** - Terminal emulator with Catppuccin Mocha theme
+### Adding Packages
 
-### Home-Manager
-
-User-specific configuration is managed through home-manager in `home.nix`. Dotfiles in the `config/` directory are automatically symlinked to `~/.config/` using out-of-store symlinks, allowing for live editing without rebuilds.
-
-User packages are separated from system packages for faster rebuilds and better organization.
-
-### Adding New Packages
-
-**System-wide** (in `configuration.nix`):
-
+**System packages** (bifrost: `hosts/bifrost/configuration.nix`):
 ```nix
 environment.systemPackages = with pkgs; [
-  # Add packages here
+  package-name
 ];
 ```
 
-**User-specific** (in `home.nix`):
-
+**User packages** (bifrost: `hosts/bifrost/home.nix`):
 ```nix
 home.packages = with pkgs; [
-  # Add packages here
+  package-name
 ];
 ```
 
-### Adding New Modules
+### Adding Modules
 
-1. Create a new module in `modules/`:
-
+1. Create `modules/newmodule.nix`:
 ```nix
-# modules/example.nix
-{ config, pkgs, lib, ...}:
+{ config, pkgs, ... }:
 {
-  # Module configuration
+  # Configuration here
 }
 ```
 
-2. Import in `configuration.nix`:
-
+2. Import in host's `configuration.nix`:
 ```nix
 imports = [
-  ./modules/example.nix
+  ../../modules/newmodule.nix
 ];
 ```
 
-## Optimization Features
+### Managing Dotfiles
 
-- **Automatic Garbage Collection**: Weekly cleanup of generations older than 30 days
-- **Store Optimization**: Automatic deduplication of identical files in Nix store
-- **Modular Design**: Easy to enable/disable features by commenting out module imports
-- **Separated Concerns**: System vs user packages for faster rebuilds
+Dotfiles in `config/` are automatically symlinked to `~/.config/` using out-of-store symlinks. Edit them directly - no rebuild required for changes to take effect.
 
-## Customization
+## Secrets Management
 
-### Dotfiles
+Asgard uses agenix for encrypted secrets:
 
-Edit configuration files directly in `config/` directory:
+```bash
+# Edit secrets
+agenix -e secret-name.age
 
-- **i3**: `config/i3/config`
-- **Polybar**: `config/polybar/config.ini`
-- **Rofi**: `config/rofi/config.rasi`
+# Secrets are defined in secrets/secrets.nix
+# Deployed secrets are available at config.age.secrets.name.path
+```
 
-Changes take effect immediately (no rebuild required).
+## Deployment
 
-### Zsh Configuration
+### Deploy Asgard from Bifrost
 
-Oh My Zsh is configured with:
+```bash
+deploy .#asgard
+```
 
-- Theme: robbyrussell
-- Built-in plugins: git, sudo, docker, kubectl, systemd, aliases
-- External plugins: zsh-autosuggestions, zsh-syntax-highlighting
-- Custom aliases for NixOS management
+This uses deploy-rs to build and activate the configuration on the remote server via SSH.
 
-### Alacritty Terminal
+### Manual Deployment
 
-Configured with:
+On the target host:
+```bash
+sudo nixos-rebuild switch --flake .#hostname
+```
 
-- Catppuccin Mocha color theme
-- 90% window opacity
-- 14pt font size
-- GPU acceleration
+## Maintenance
 
-### Graphics
+### Garbage Collection
 
-NVIDIA drivers are configured with:
+```bash
+# Manual cleanup
+sudo nix-collect-garbage -d
+# Or alias
+nixclean
 
-- Modesetting enabled
-- Stable driver package
-- Power management disabled
-- NVIDIA Settings enabled
+# Automatic: configured in modules/maintenance.nix
+# - Bifrost: Weekly, >10 day old generations
+# - Asgard: Weekly, >10 day old generations
+```
 
-## NixOS Version
+### System Upgrades
 
+```bash
+# Manual upgrade
+sudo nixos-rebuild switch --upgrade --flake .#hostname
+# Or alias
+nru
+
+# Automatic: Asgard upgrades daily at 02:00
+```
+
+### List Generations
+
+```bash
+sudo nixos-rebuild list-generations
+# Or alias
+nixgen
+```
+
+## Development
+
+### Code Formatting
+
+Always format Nix files before committing:
+
+```bash
+nixfmt file.nix
+```
+
+### Aliases (Bifrost)
+
+Defined in `modules/zsh.nix`:
+- `nrs` - Rebuild and switch
+- `nrt` - Rebuild and test
+- `nru` - Rebuild with upgrade
+- `nixgen` - List generations
+- `nixclean` - Garbage collection
+
+## System Information
+
+### Bifrost
 - **NixOS**: 25.11
-- **Home-Manager**: release-25.11
-- **Flakes**: Enabled
+- **Timezone**: Europe/Oslo
+- **Locale**: en_US.UTF-8
+- **Keyboard**: Norwegian (no)
+- **User**: fjs (networkmanager, wheel, libvirtd)
+
+### Asgard
+- **NixOS**: 25.05
+- **Timezone**: Europe/Falkenstein
+- **Locale**: en_US.UTF-8
+- **Console**: Norwegian keymap
+- **User**: fjs (wheel)
+- **Domain**: asgard.isafter.me
+
+## Technical Details
+
+### Home-Manager Integration (Bifrost)
+
+Home-manager runs as a NixOS module:
+- `useGlobalPkgs = true` - Use system nixpkgs
+- `useUserPackages = true` - Install to user profile
+- `backupFileExtension = "backup"` - Backup conflicting files
+
+### Nix Settings
+
+Both hosts:
+- Experimental features: `nix-command`, `flakes`
+- Auto-optimization enabled
+- Unfree packages allowed
+
+### Build Optimization
+
+- Modular architecture for selective rebuilds
+- Separated system/user packages (faster home-manager rebuilds)
+- Shared modules reduce duplication
+
+## Requirements
+
+- NixOS 25.11 (bifrost) or 25.05+ (asgard)
+- Flakes enabled
+- For asgard: SSH access with authorized keys
 
 ## Notes
 
-- Unfree packages are allowed (required for NVIDIA drivers, Steam, Discord, etc.)
-- Experimental features `nix-command` and `flakes` are enabled
-- Default user shell is set to Zsh system-wide
-- GNOME Keyring is enabled for credential management (SSH agent disabled)
+- Hardware configurations are host-specific and auto-generated
+- NVIDIA drivers require unfree packages
+- Dotfiles changes don't require system rebuilds
+- Asgard has passwordless sudo for wheel group
+- Traefik dashboard requires IP allowlist (127.0.0.1 or configured IP)
+
+## License
+
+Personal configuration - use at your own discretion.
