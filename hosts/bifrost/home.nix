@@ -47,6 +47,8 @@ in
       dig
       zed-editor-fhs
       nil
+      obsidian
+      ripgrep
     ])
     ++ [
       llm-agents.packages.${pkgs.system}.claude-code
