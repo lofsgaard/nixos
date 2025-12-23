@@ -3,7 +3,6 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/maintenance.nix
   ];
 
   nix.settings = {
