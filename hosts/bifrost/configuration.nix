@@ -48,6 +48,7 @@
     jq
     wiremix
     pulseaudio
+    pavucontrol
   ];
 
   nix.settings = {
