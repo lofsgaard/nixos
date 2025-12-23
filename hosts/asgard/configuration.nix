@@ -50,7 +50,6 @@
 
   networking.firewall.allowedTCPPorts = [
     22
-    8080
     443
     80
   ];
