@@ -6,6 +6,7 @@
     ../../modules/maintenance.nix
     ./services/traefik.nix
     ./secrets.nix
+    ../../modules/containers.nix
   ];
 
   nix.settings = {
@@ -18,7 +19,10 @@
     pkgs.vim
   ];
 
-  services.fail2ban.enable = true;
+  services.fail2ban = {
+    enable = true;
+    bantime = "1h";
+  };
 
   networking.hostName = "asgard";
 
@@ -30,7 +34,10 @@
     root.hashedPassword = "!"; # Disable root login
     fjs = {
       isNormalUser = true;
-      extraGroups = [ "wheel" ];
+      extraGroups = [
+        "wheel"
+        "podman"
+      ];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFSO10/lIejPCuTZq03UlqU/DUzwxj1/NX7hBm74OhRu andreas@lofsgaard.com"
       ];

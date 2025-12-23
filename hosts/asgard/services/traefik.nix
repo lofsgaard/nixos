@@ -52,30 +52,11 @@
 
     dynamicConfigOptions = {
       http = {
-        middlewares = {
-          auth = {
-            basicAuth = {
-              users = [ "admin:$apr1$bJt81xIX$alH.5MEaMA4mHgFMcz7IU1" ];
-            };
-          };
-          dashboard-ip-allowlist = {
-            ipAllowList = {
-              sourceRange = [
-                "127.0.0.1/32"
-                "81.191.193.166/32"
-              ];
-            };
-          };
-        };
-
         routers = {
           api = {
-            rule = "Host(`asgard.isafter.me`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))";
+            rule = "Host(`traefik.isafter.me`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))";
             service = "api@internal";
             entryPoints = [ "websecure" ];
-            middlewares = [
-              "auth"
-            ];
             tls = {
               certResolver = "cloudflare";
             };

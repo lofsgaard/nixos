@@ -11,6 +11,7 @@
     ../../modules/programs.nix
     ../../modules/zsh.nix
     ../../modules/maintenance.nix
+    ../../modules/containers.nix
   ];
 
   networking = {
@@ -32,6 +33,7 @@
       "networkmanager"
       "wheel"
       "libvirtd"
+      "podman"
     ];
   };
 
