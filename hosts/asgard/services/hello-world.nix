@@ -1,10 +1,22 @@
 {
   virtualisation.oci-containers.backend = "podman";
   virtualisation.oci-containers.containers = {
-    container-name = {
-      image = "docker.io/hello-world:latest";
+    hello-world = {
+      image = "docker.io/traefik/whoami:latest";
       autoStart = true;
-      ports = [ "127.0.0.1:1234:1234" ];
+      ports = [ "42069:80" ];
     };
+  };
+  services.traefik.dynamicConfigOptions = {
+    http.routers.whoami = {
+      rule = "Host(`whoami.isafter.me`)";
+      entryPoints = [ "websecure" ];
+      service = "whoami";
+      tls.certResolver = "cloudflare";
+    };
+
+    http.services.whoami.loadBalancer.servers = [
+      { url = "http://127.0.0.1:42069"; }
+    ];
   };
 }

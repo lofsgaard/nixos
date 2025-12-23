@@ -7,6 +7,7 @@
     ./services/traefik.nix
     ./secrets.nix
     ../../modules/containers.nix
+    ./services/hello-world.nix
   ];
 
   nix.settings = {
