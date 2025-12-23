@@ -88,7 +88,7 @@
             profiles.system = {
               sshUser = "fjs";
               user = "root";
-              path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.asgard;
+              path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.helheim;
             };
           };
         };

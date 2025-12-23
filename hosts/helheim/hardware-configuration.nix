@@ -13,6 +13,10 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.useOSProber = true;
+
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "ehci_pci"
@@ -24,9 +28,6 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/71136d42-19a2-4264-a7dd-c9ae5c5a15e7";
