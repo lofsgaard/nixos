@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  pkgs-unstable,
+  inputs,
+  ...
+}:
 
 {
   programs.niri.enable = true;
@@ -9,12 +14,13 @@
 
   programs.waybar.enable = true; # top bar
   environment.systemPackages = with pkgs; [
-    alacritty
     fuzzel
     swaylock
     mako
     swayidle
     xwayland-satellite
+    # Add noctalia shell from unstable
+    inputs.noctalia.packages.${pkgs-unstable.stdenv.hostPlatform.system}.default
   ];
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";

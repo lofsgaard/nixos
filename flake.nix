@@ -20,13 +20,17 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =
     {
       self,
+      inputs,
       nixpkgs,
-      nixpkgs-unstable,
       home-manager,
       llm-agents,
       deploy-rs,
@@ -37,7 +41,11 @@
       nixosConfigurations.bifrost = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          inherit self llm-agents nixpkgs-unstable;
+          inherit self inputs;
+          pkgs-unstable = import inputs.nixpkgs-unstable {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+          };
         };
         modules = [
           ./hosts/bifrost/configuration.nix
@@ -49,7 +57,11 @@
               users.fjs = import ./hosts/bifrost/home.nix;
               backupFileExtension = "backup";
               extraSpecialArgs = {
-                inherit llm-agents deploy-rs agenix;
+                inherit
+                  llm-agents
+                  deploy-rs
+                  agenix
+                  ;
               };
             };
           }
