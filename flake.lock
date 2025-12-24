@@ -156,11 +156,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1766558996,
-        "narHash": "sha256-17t7faZUAhZCT0zJUsxFQ1Zefm+JVPHmQIKp72KDA3w=",
+        "lastModified": 1766585760,
+        "narHash": "sha256-dMOdwzCdJeJHRVT2udM3cziJAsxMOO0wHjeZ2WWhzk0=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "78eafa553ae1b64eec5e8aa54810568c5cc0de3c",
+        "rev": "98185694332ee75319f8139fcc751eea9426bde7",
         "type": "github"
       },
       "original": {
@@ -199,6 +199,26 @@
         "type": "indirect"
       }
     },
+    "noctalia": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1766597936,
+        "narHash": "sha256-HQs2BB9XD1JyWt10u6PFkfP1jNfweE7kGPUBH0LNJfQ=",
+        "owner": "noctalia-dev",
+        "repo": "noctalia-shell",
+        "rev": "a61df00a10d95e648e18ec55a73485377cad260d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "noctalia-dev",
+        "repo": "noctalia-shell",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -206,7 +226,8 @@
         "home-manager": "home-manager_2",
         "llm-agents": "llm-agents",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "noctalia": "noctalia"
       }
     },
     "systems": {

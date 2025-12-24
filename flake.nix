@@ -29,14 +29,13 @@
   outputs =
     {
       self,
-      inputs,
       nixpkgs,
       home-manager,
       llm-agents,
       deploy-rs,
       agenix,
       ...
-    }:
+    }@inputs:
     {
       nixosConfigurations.bifrost = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";

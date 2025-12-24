@@ -14,6 +14,8 @@ let
     i3 = "i3";
     polybar = "polybar";
     rofi = "rofi";
+    noctalia = "noctalia";
+    niri = "niri";
   };
 in
 {
@@ -48,6 +50,7 @@ in
       nil
       obsidian
       ripgrep
+      kdePackages.dolphin
     ])
     ++ [
       llm-agents.packages.${pkgs.system}.claude-code
