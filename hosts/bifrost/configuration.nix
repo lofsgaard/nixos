@@ -6,7 +6,7 @@
     ../../etc/nix-ld.nix
     ../../modules/hardware.nix
     ../../modules/nvidia.nix
-    ../../modules/desktopi3.nix
+    ../../modules/desktop_niri.nix
     ../../modules/audio.nix
     ../../modules/programs.nix
     ../../modules/zsh.nix

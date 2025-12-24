@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,6 +26,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       llm-agents,
       deploy-rs,
@@ -35,7 +37,7 @@
       nixosConfigurations.bifrost = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          inherit self llm-agents;
+          inherit self llm-agents nixpkgs-unstable;
         };
         modules = [
           ./hosts/bifrost/configuration.nix
@@ -53,6 +55,7 @@
           }
         ];
       };
+
       nixosConfigurations.asgard = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
