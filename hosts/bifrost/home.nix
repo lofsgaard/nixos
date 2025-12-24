@@ -44,7 +44,6 @@ in
       nixfmt-tree
       mcp-nixos
       vim
-      dig
       zed-editor-fhs
       nil
       obsidian

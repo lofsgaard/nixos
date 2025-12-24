@@ -6,7 +6,7 @@
     ../../etc/nix-ld.nix
     ../../modules/hardware.nix
     ../../modules/nvidia.nix
-    ../../modules/desktop.nix
+    ../../modules/desktopi3.nix
     ../../modules/audio.nix
     ../../modules/programs.nix
     ../../modules/zsh.nix
@@ -51,6 +51,11 @@
     wiremix
     pulseaudio
     pavucontrol
+  ];
+
+  fonts.packages = with pkgs; [
+    font-awesome
+    nerd-fonts.jetbrains-mono
   ];
 
   nix.settings = {
