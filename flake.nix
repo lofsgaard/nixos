@@ -4,14 +4,7 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
-    home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    llm-agents = {
-      url = "github:numtide/llm-agents.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,53 +13,17 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
   };
 
   outputs =
     {
       self,
       nixpkgs,
-      home-manager,
-      llm-agents,
       deploy-rs,
       agenix,
       ...
-    }@inputs:
+    }:
     {
-      nixosConfigurations.bifrost = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit self inputs;
-          pkgs-unstable = import inputs.nixpkgs-unstable {
-            system = "x86_64-linux";
-            config.allowUnfree = true;
-          };
-        };
-        modules = [
-          ./hosts/bifrost/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.fjs = import ./hosts/bifrost/home.nix;
-              backupFileExtension = "backup";
-              extraSpecialArgs = {
-                inherit
-                  llm-agents
-                  deploy-rs
-                  agenix
-                  ;
-              };
-            };
-          }
-        ];
-      };
-
       nixosConfigurations.asgard = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
