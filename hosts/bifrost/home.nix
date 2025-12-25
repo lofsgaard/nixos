@@ -28,6 +28,14 @@ in
   programs.git.enable = true;
   home.stateVersion = "25.11";
 
+  gtk = {
+    enable = true;
+    cursorTheme = {
+      name = "Vimix-Cursors";
+      size = 24;
+    };
+  };
+
   home.packages =
     (with pkgs; [
       lsd
@@ -50,7 +58,10 @@ in
       nil
       obsidian
       ripgrep
-      kdePackages.dolphin
+      nwg-look
+      adwaita-icon-theme
+      catppuccin-gtk
+      vimix-cursors
     ])
     ++ [
       llm-agents.packages.${pkgs.system}.claude-code
