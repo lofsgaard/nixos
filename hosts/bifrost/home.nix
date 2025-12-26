@@ -25,7 +25,6 @@ in
   ];
   home.username = "fjs";
   home.homeDirectory = "/home/fjs";
-  programs.git.enable = true;
   home.stateVersion = "25.11";
 
   gtk = {
@@ -33,6 +32,17 @@ in
     cursorTheme = {
       name = "Vimix-Cursors";
       size = 24;
+    };
+  };
+
+  programs.git = {
+    enable = true;
+    settings = {
+      user = {
+        name = "Andreas Løfsgaard";
+        email = "andreas@lofsgaard.com";
+      };
+      init.defaultBranch = "main";
     };
   };
 
