@@ -39,7 +39,7 @@
         "podman"
       ];
       openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFSO10/lIejPCuTZq03UlqU/DUzwxj1/NX7hBm74OhRu andreas@lofsgaard.com"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN1ALja6Trt7Gvdl7Dc+5TykXU6nel4tQhCwhxDuGlTg andreas@lofsgaard.com"
       ];
     };
   };
