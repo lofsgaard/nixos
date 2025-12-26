@@ -12,6 +12,7 @@
     ../../modules/zsh.nix
     ../../modules/maintenance.nix
     ../../modules/containers.nix
+    ../../modules/dms.nix
   ];
 
   networking = {

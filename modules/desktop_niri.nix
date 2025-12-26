@@ -1,7 +1,5 @@
 {
   pkgs,
-  pkgs-unstable,
-  inputs,
   ...
 }:
 
@@ -18,15 +16,10 @@
     mako
     swayidle
     xwayland-satellite
-    # Add noctalia shell from unstable
-    inputs.noctalia.packages.${pkgs-unstable.stdenv.hostPlatform.system}.default
-    pkgs-unstable.quickshell
   ];
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.variables.LIBVA_DRIVER_NAME = "nvidia";
+  environment.variables.__GLX_VENDOR_LIBRARY_NAME = "nvidia";
 
-  imports = [
-    inputs.noctalia.nixosModules.default
-  ];
-  services.noctalia-shell.enable = true;
 }
