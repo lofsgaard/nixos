@@ -3,6 +3,8 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./services/traefik.nix
+    ./services/cloudflared.nix
     ../../modules/maintenance.nix
   ];
 

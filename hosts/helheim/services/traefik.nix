@@ -3,6 +3,7 @@
 }:
 {
   imports = [
+    ../../../secrets/secret_cloudflare.nix
     ../../../modules/traefik.nix
   ];
   services.traefik = {
