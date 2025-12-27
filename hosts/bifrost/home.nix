@@ -14,8 +14,8 @@ let
     i3 = "i3";
     polybar = "polybar";
     rofi = "rofi";
-    noctalia = "noctalia";
     niri = "niri";
+    hypr = "hypr";
   };
 in
 {
@@ -72,6 +72,7 @@ in
       adwaita-icon-theme
       catppuccin-gtk
       vimix-cursors
+      yazi
     ])
     ++ [
       llm-agents.packages.${pkgs.system}.claude-code

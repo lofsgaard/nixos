@@ -23,6 +23,7 @@
 
   environment.pathsToLink = [ "/share/zsh" ];
   environment.localBinInPath = true;
+  environment.variables.EDITOR = "vim";
 
   time.timeZone = "Europe/Oslo";
   i18n.defaultLocale = "en_US.UTF-8";

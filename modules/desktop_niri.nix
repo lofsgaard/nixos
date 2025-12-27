@@ -12,14 +12,19 @@
 
   environment.systemPackages = with pkgs; [
     fuzzel
-    swaylock
     mako
-    swayidle
     xwayland-satellite
+    hyprlock
+    hypridle
   ];
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.variables.LIBVA_DRIVER_NAME = "nvidia";
   environment.variables.__GLX_VENDOR_LIBRARY_NAME = "nvidia";
+
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
 
 }
