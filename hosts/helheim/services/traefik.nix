@@ -3,7 +3,6 @@
 }:
 {
   imports = [
-    ../../../secrets/secret_cloudflare.nix
     ../../../modules/traefik.nix
   ];
   services.traefik = {
@@ -11,7 +10,7 @@
       http = {
         routers = {
           api = {
-            rule = "Host(`traefik.isafter.me`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))";
+            rule = "Host(`helheim.isafter.me`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))";
             service = "api@internal";
             entryPoints = [ "websecure" ];
             tls = {

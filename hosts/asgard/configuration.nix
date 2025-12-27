@@ -5,7 +5,6 @@
     ./hardware-configuration.nix
     ../../modules/maintenance.nix
     ./services/traefik.nix
-    ./secrets.nix
     ../../modules/containers.nix
   ];
 
