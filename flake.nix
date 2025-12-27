@@ -88,6 +88,7 @@
         };
         modules = [
           ./hosts/helheim/configuration.nix
+          agenix.nixosModules.default
         ];
       };
 

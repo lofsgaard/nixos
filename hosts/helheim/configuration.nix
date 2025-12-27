@@ -6,6 +6,8 @@
     ./services/traefik.nix
     ./services/cloudflared.nix
     ../../modules/maintenance.nix
+    ../../modules/containers.nix
+    ./services/hello-world.nix
   ];
 
   nix.settings = {
@@ -50,6 +52,8 @@
 
   networking.firewall.allowedTCPPorts = [
     22
+    443
+    80
   ];
 
   system.stateVersion = "25.11";

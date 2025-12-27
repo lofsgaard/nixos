@@ -10,7 +10,7 @@
 
     staticConfigOptions = {
       log = {
-        level = "WARN";
+        level = "DEBUG";
       };
 
       api = {
