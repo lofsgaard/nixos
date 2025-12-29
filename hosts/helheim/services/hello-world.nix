@@ -9,7 +9,7 @@
   };
   services.traefik.dynamicConfigOptions = {
     http.routers.whoami = {
-      rule = "Host(`helheim.isafter.me/whoami`)";
+      rule = "Host(`helheim.isafter.me`)";
       entryPoints = [ "websecure" ];
       service = "whoami";
       tls.certResolver = "cloudflare";

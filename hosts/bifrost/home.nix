@@ -73,10 +73,13 @@ in
       catppuccin-gtk
       vimix-cursors
       yazi
+      gamescope
+      gamemode
+      kdePackages.okular
     ])
     ++ [
-      llm-agents.packages.${pkgs.system}.claude-code
-      deploy-rs.packages.${pkgs.system}.deploy-rs
+      llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
+      deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.deploy-rs
     ];
   xdg.configFile = builtins.mapAttrs (name: subpath: {
     source = create_symlink "${dotfiles}/${subpath}";

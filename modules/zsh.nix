@@ -28,6 +28,7 @@
 
       # Deploy-rs aliases
       deploy-asgard = "deploy ~/nixos#asgard";
+      deploy-helheim = "deploy ~/nixos#helheim";
       deploy-all = "deploy ~/nixos#";
       deploy-check = "nix flake check";
 

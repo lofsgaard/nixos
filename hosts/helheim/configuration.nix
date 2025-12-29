@@ -7,7 +7,6 @@
     ./services/cloudflared.nix
     ../../modules/maintenance.nix
     ../../modules/containers.nix
-    ./services/hello-world.nix
   ];
 
   nix.settings = {
